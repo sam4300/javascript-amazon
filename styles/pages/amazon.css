@@ -1,4 +1,4 @@
-.main {
+       .main {
   margin-top: 60px;
 }
 
@@ -139,5 +139,8 @@
   width: 100%;
   padding: 8px;
   border-radius: 50px;
+}
+.added-to-cart-visible{
+  opacity: 1;
 }
  
