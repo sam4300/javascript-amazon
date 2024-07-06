@@ -1,4 +1,4 @@
-import * as cartFile from "../script/cart.js";
+import * as cartFile from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productHtml = "";
@@ -62,7 +62,7 @@ document.querySelector(".js-products-grid").innerHTML = productHtml;
 
 function increaseCartQunatity() {
   let cartQuantity = 0;
-  cartFile.carts.forEach((cartItem) => {
+  cartFile.cart.forEach((cartItem) => {
     cartQuantity += cartItem.quantity;
   });
 
@@ -98,4 +98,5 @@ document.querySelectorAll(".js-add-to-cart").forEach((cartButton) => {
     increaseCartQunatity();
     showAddedText(productId);
   });
+  increaseCartQunatity();
 });
