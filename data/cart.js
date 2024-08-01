@@ -2,15 +2,23 @@ export var cart = JSON.parse(localStorage.getItem("cartItems")) ?? [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     quantity: 4,
+    deliveryOptionsId: "1",
   },
   {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
     quantity: 5,
+    deliveryOptionsId: "2",
   },
 ];
 
 function saveToLocalStorage() {
   localStorage.setItem("cartItems", JSON.stringify(cart));
+}
+
+export function totalProductsOnCart() {
+  document.querySelector(
+    ".js-cart-total-items"
+  ).innerHTML = `${cart.length} products`;
 }
 
 export function addToCart(productId) {
@@ -28,16 +36,25 @@ export function addToCart(productId) {
   if (matchingItem) {
     matchingItem.quantity += quantity;
   } else {
-    cart.push({ id: productId, quantity });
+    cart.push({ id: productId, quantity, deliveryOptionsId: "1" });
   }
 
-  console.log(cart);
   saveToLocalStorage();
 }
 
-export function deleteCartItem(cartId) {
-  cart = cart.filter((cart) => {
-    return cart.id !== cartId;
-  });
+export function updateCartQuantity(cartId, updateItem) {
+  let matchingItem = cart.find((cartItem) => cartItem.id === cartId);
+  matchingItem.quantity = updateItem;
+  document.querySelector(`.js-quantity-label-${cartId}`).innerHTML = updateItem;
   saveToLocalStorage();
+  totalProductsOnCart();
+}
+
+export function deleteCartItem(cartId) {
+  const deleteIndex = cart.findIndex((item) => item.id === cartId);
+  cart.splice(deleteIndex, 1);
+  //above deletion can also be done as follows where filter returns a new array of cart
+  // cart = cart.filter((item) => item.id !== cartId);
+  saveToLocalStorage();
+  totalProductsOnCart();
 }
