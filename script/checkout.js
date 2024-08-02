@@ -3,6 +3,7 @@ import {
   deleteCartItem,
   totalProductsOnCart,
   updateCartQuantity,
+  updateDeliveryOptionsId,
 } from "../data/cart.js";
 import { deliveryOptions } from "../data/deliveryDate.js";
 import { products } from "../data/products.js";
@@ -84,6 +85,7 @@ cart.forEach((cartItem) => {
             </div>
           </div>`;
 });
+document.querySelector(".js-order-summary").innerHTML = checkoutHtml;
 
 function deliveryOptionHtml(matchingProduct, cartItem) {
   let html = "";
@@ -100,11 +102,15 @@ function deliveryOptionHtml(matchingProduct, cartItem) {
     const isChecked = deliveryOption.id === cartItem.deliveryOptionsId;
 
     html += `
-        <div class="delivery-option">
-                  <input type="radio"
-                  ${isChecked ? "checked" : ""}
+        <div class="delivery-option js-delivery-option"    
+                     data-product-id = "${matchingProduct.id}"
+                     data-delivery-id = "${deliveryOption.id}">
+                    <input type="radio"
+                    ${isChecked ? "checked" : ""}
                     class="delivery-option-input"
-                    name="delivery-option-${matchingProduct.id}">
+                    name="delivery-option-${matchingProduct.id}"
+               
+                    >
                   <div>
                   <div class="delivery-option-date">
                       ${dateFormat}
@@ -118,13 +124,12 @@ function deliveryOptionHtml(matchingProduct, cartItem) {
   return html;
 }
 
-document.querySelector(".js-order-summary").innerHTML = checkoutHtml;
-
-document
-  .querySelector(".js-order-summary")
-  .addEventListener("click", (event) => {
-    const target = event.target;
+document.querySelectorAll(".js-delivery-option").forEach((element) => {
+  element.addEventListener("click", () => {
+    const { productId, deliveryId } = element.dataset;
+    updateDeliveryOptionsId(productId, deliveryId);
   });
+});
 
 document.querySelectorAll(".js-update-cart").forEach((updateLink) => {
   updateLink.addEventListener("click", () => {

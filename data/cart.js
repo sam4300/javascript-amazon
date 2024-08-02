@@ -58,3 +58,10 @@ export function deleteCartItem(cartId) {
   saveToLocalStorage();
   totalProductsOnCart();
 }
+
+export function updateDeliveryOptionsId(productId, deliveryOptionsId) {
+  let matchingCartItem = cart.find((cartItem) => productId === cartItem.id);
+
+  matchingCartItem.deliveryOptionsId = deliveryOptionsId;
+  saveToLocalStorage();
+}
