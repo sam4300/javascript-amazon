@@ -49,7 +49,7 @@ export function renderOrderSummary() {
                       ${matchingProduct.name}
                       </div>
                    <div class="product-price">
-                  $${(matchingProduct.priceCents / 100).toFixed(2)}
+                  $${formatCurrency(matchingProduct.priceCents)}
                   </div>
                   <div class="product-quantity  cart-update-container-${
                     matchingProduct.id
@@ -65,7 +65,7 @@ export function renderOrderSummary() {
                   </span>
                   <input class = "quantity-input js-quantity-input-${
                     matchingProduct.id
-                  }" type = 'number'>
+                  }" type = 'number' value = ${cartItem.quantity}>
                   <span class ="save-quantity link-primary" data-save-cart = "${
                     matchingProduct.id
                   }" >save</span>
